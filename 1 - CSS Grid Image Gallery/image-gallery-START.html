@@ -47,7 +47,7 @@
 
     .close {
       background: none;
-      color: white;
+      color: #000;
       border: 0;
     }
 
@@ -59,6 +59,30 @@
     }
     .item {
       overflow: hidden;
+      display: grid;
+      grid-template-rows: 1;
+      grid-template-columns: 1;
+    }
+    .item img {
+      grid-column: 1/-1;
+      grid-row: 1/-1;
+      height: 100%;
+      width: 100%;
+      object-fit:cover;
+      /* z-index: 2 */
+    }
+    .item__overlay {
+      grid-column: 1/-1;
+      grid-row: 1/-1;
+      background: #e7640d32;
+      display: grid;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease-in;
+      transform: translateY(100%);
+    }
+    .item:hover .item__overlay {
+      transform: translateY(0%);
     }
     .item.v1 {
       grid-row: span 1
@@ -99,9 +123,11 @@
 
     .overlay.open {
       display: grid;
+      align-items: center;
+      justify-content: center;
     }
 
-    .overlay figure {
+    .overlay .overlay-inner {
       background: white;
       width: 700px;
       padding: 20px;
@@ -115,8 +141,8 @@
   <script>
     const overlay = document.querySelector('.overlay')
     const gallery = document.querySelector('.gallery')
-    const close = document.querySelector('.close')
-    const image = document.querySelector('img');
+    const closeButton = document.querySelector('.close')
+    const overlayImage = document.querySelector('img');
 
     function generateHTML([h, v]) {
       return `
@@ -131,6 +157,18 @@
       function generateRandomNumber(limit) {
         return (Math.floor(Math.random() * limit) + 1)
     }
+    const openImagePreviewHandler = (e) => {
+      console.log(e.currentTarget);
+      const src = e.currentTarget.querySelector('img').src;
+      overlayImage.src= src;
+      openOverlay()
+    }
+    const openOverlay = () => {
+      overlay.classList.add('open')
+    }
+    const closeOverlay = () => {
+      overlay.classList.remove('open')
+    }
 
     // create array with nested arrays containing random values between 1 - 4
     const digits = Array.from({length: 50}, () => {
@@ -141,6 +179,10 @@
     console.log(html)
     gallery.innerHTML = html;
 
+    const items = document.querySelectorAll('.item');
+
+    items.forEach(item => item.addEventListener('click', openImagePreviewHandler))
+    closeButton.addEventListener('click', closeOverlay);
       </script>
       </body>
 
