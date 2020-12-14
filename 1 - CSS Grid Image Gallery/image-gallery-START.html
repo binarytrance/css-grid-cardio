@@ -51,8 +51,39 @@
       border: 0;
     }
 
-    .gallery {}
-
+    .gallery {
+      display:grid;
+      grid-template-columns: repeat(auto-fill, 100px);
+      grid-auto-rows: 100px; /* we do not know how many rows do we need. hence we are sizing the implicitly generated rows */
+      grid-auto-flow: dense;
+    }
+    .item {
+      overflow: hidden;
+    }
+    .item.v1 {
+      grid-row: span 1
+    }
+    .item.v2 {
+      grid-row: span 2
+    }
+    .item.v3 {
+      grid-row: span 3
+    }
+    .item.v4 {
+      grid-row: span 4
+    }
+    .item.h1 {
+      grid-column: span 1
+    }
+    .item.h2 {
+      grid-column: span 2
+    }
+    .item.h3 {
+      grid-column: span 3
+    }
+    .item.h4 {
+      grid-column: span 4
+    }
 
 
     .overlay {
@@ -104,7 +135,7 @@
     // create array with nested arrays containing random values between 1 - 4
     const digits = Array.from({length: 50}, () => {
       return [generateRandomNumber(4), generateRandomNumber(4)]
-    })
+    }).concat([[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1],[1,1]])
     console.log(digits);
     const html = digits.map(generateHTML).join(' ')
     console.log(html)
